@@ -1,8 +1,5 @@
 .page {
   background-color: #000;
-  color: #fff;
-  margin: 0 auto;
-  box-sizing: border-box;
   padding-top: 45px;
   font-family: 'Inter', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -13,12 +10,24 @@
   text-rendering: optimizeLegibility;
 }
 
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: #000;
+  color: #fff;
+}
+
+.button:hover {
+  cursor: pointer;
+  opacity: 50%;
+  transition: 0.3s opacity linear;
+}
+
 .header {
   width: 100%;
-  max-width: 880px;
   border-bottom: 1px solid #545454;
-  margin: 0 auto 38px auto;
-  box-sizing: border-box;
+  margin-bottom: 40px;
   display: flex;
 }
 
@@ -30,13 +39,10 @@
 
 .profile {
   width: 100%;
-  max-width: 880px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 120px auto 150px;
   column-gap: 30px;
   align-items: center;
-  border: 1px solid red;
 }
 
 .profile__avatar {
@@ -51,22 +57,29 @@
 }
 
 .profile__name {
-  margin: auto 0 16px 0;
-  font-family: 'Inter';
+  display: flex;
+  align-items: flex-end;
+  margin: 6px 0 0 0;
   font-style: normal;
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  
 }
 
 .profile__description {
   width: 100%;
-  margin:0;
-  font-family: 'Inter';
+  margin: 6px 0 auto 0;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .edit-button {
@@ -74,6 +87,8 @@
   border: none;
   background: #000 url("./images/edit_button.svg") no-repeat center;
   margin-left: 18px;
+  margin-top: 10px;
+  padding: 0;
 }
 
 .add-button {
@@ -83,11 +98,157 @@
   border: 1px solid white;
 }
 
-.location-list {
+.location { 
+  margin: 51px auto 0 auto;
+}
+
+.location__list {
+  width: 100%;
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 20px;
-  column-gap: 17px
-;
+  grid-template-columns: repeat(auto-fit, 282px);
+  gap: 20px 17px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.location__card {
+  margin: 0;
+  width: 282px;
+  max-height: 361px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.location__image {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.location__description {
+  padding: 25px 15px 25px 21px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.location__title {
+  background-color: #fff;
+  color: #000000;
+  margin: 0;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.location__like {
+  border-width: 0;
+  background-color: #fff;
+}
+
+.location__like:hover {
+  background: #000000;
+  opacity: 0.5;
+}
+
+.location__like-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.footer {
+  padding: 66px 0 30px 0;
+}
+
+.footer__paragraph{
+  color: #545454;
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+}
+
+.popup__container {
+  position: relative;
+  max-width: 430px;
+  height: 330px;
+  padding: 34px 36px 30px 36px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: white;
+  opacity: 1;
+  z-index: 10;
+}
+
+.popup__title {
+  margin: 0 0 48px 0;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: black;
+ 
+}
+
+.popup__input {
+  border: none;
+  /*box-sizing: border-box;*/
+  width: 358px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border-bottom: 1px solid black;
+  padding-bottom: 8px;
+}
+
+.popup__input:last-of-type {
+  margin-top: 30px;
+}
+
+.popup_opened {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup__close-button {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background-color: transparent;
+  background-image: url("./images/close_icon.svg");
+  border: none;
+  padding: 0;
+}
+
+.popup__save-button {
+  margin-top: 48px;
+  width: 358px;
+  height: 50px;
+  border: none;
+  background-color: black;
+  color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
 }

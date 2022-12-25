@@ -6,35 +6,98 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./vendor/normalize.css">
-  <link rel="stylesheet" href="./vendor/inter.css">
+  <link rel="stylesheet" href="./vendor/font/inter.css">
   <link rel="stylesheet" href="style.css">
   <title>Mesto</title>
 </head>
-<body >
+<body>
   <div class="page">
-      <header class="header">
-          <img src="./images/logo.png" alt="Логотип Сайта" class="header__logo">
+      <header class="header container">
+          <img src="./images/logo.svg" alt="Логотип Сайта" class="header__logo">
       </header>
       <main>
-          <section class="profile">
+          <section class="profile container">
               <img src="./images/avatar.jpg" alt="Аватар профиля" class="profile__avatar">
               <div class="profile__info">
-                <h1 class="profile__name">custo</h1>
-                <button class="edit-button"></button>
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <button class="edit-button button"></button>
                 <p class="profile__description">Исследователь океана</p>
               </div>
-            <button class="add-button"></button>
+            <button class="add-button button"></button>
           </section>
-        <section class="location">
-          <ul class="location-list">
-            <li class="location-card">11</li>
+        <section class="location container">
+          <ul class="location__list">
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Карачаевск</h2>
+                <button class="location__like">
+                <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div>
+            </li>
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Гора Эльбрус</h2>
+                <button class="location__like">
+                  <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div></li>
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Домбай</h2>
+                <button class="location__like">
+                  <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div>
+            </li>
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Гора Эльбрус</h2>
+                <button class="location__like">
+                  <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div>  
+            </li>
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Домбай</h2>
+                <button class="location__like">
+                  <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div>
+            </li>
+            <li class="location__card">
+              <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="location__image">
+              <div class="location__description">
+                <h2 class="location__title">Карачаево-Черкессия</h2>
+                <button class="location__like">
+                  <img src="images/like_button.svg" class="location__like-icon">
+                </button>
+              </div>
+            </li>
           </ul>
-          
-               
-        </section>
+         </section>
       </main>
-
-
+      <footer class="footer container">
+       <p class="footer__paragraph"> &copy; 2022 Mesto Russia </p>
+      </footer>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button button" type="button" aria-label="Закрыть"></button>
+        <form class="popup__content">
+              <h2 class="popup__title">Редактировать профиль</h2>
+              <input id="name" class="popup__input" type="text">
+              <input id="description" class="popup__input popup__input_field" type="text">
+              <button class="popup__save-button button" type="submint" value="Сохранить">Сохранить</button>
+        </form>
+      </div>
+    </div>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
