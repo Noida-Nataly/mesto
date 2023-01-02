@@ -18,10 +18,10 @@
               <img src="./images/avatar.jpg" alt="Аватар профиля" class="profile__avatar">
               <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button button" type="button"></button>
+                <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
                 <p class="profile__description">Исследователь океана</p>
               </div>
-            <button class="profile__add-button button" type="button"></button>
+            <button class="profile__add-button button" type="button" aria-label="Добавить профиль"></button>
           </section>
         <section class="location container">
           <ul class="location__list">
@@ -29,41 +29,41 @@
               <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Древний храм Карачаевск" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Карачаевск</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div>
             </li>
             <li class="location__card">
               <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Гора Эльбрус</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div></li>
             <li class="location__card">
               <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Горы Домбая" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Домбай</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div>
             </li>
             <li class="location__card">
               <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Гора Эльбрус</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div>  
             </li>
             <li class="location__card">
               <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Горы Домбая" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Домбай</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div>
             </li>
             <li class="location__card">
               <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Древний храм Карачаевск" class="location__image">
               <div class="location__description">
                 <h2 class="location__title">Карачаево-Черкессия</h2>
-                <button class="location__like-button button" type="button"></button>
+                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
               </div>
             </li>
           </ul>
@@ -75,15 +75,15 @@
     <div class="popup">
       <div class="popup__container">
         <button class="popup__close-button button" type="button" aria-label="Закрыть"></button>
-        <form class="popup__content">
+        <form class="popup__content" name="profile">
               <h2 class="popup__title">Редактировать профиль</h2>
-              <input id="name" class="popup__input" type="text">
-              <input id="description" class="popup__input popup__input_field" type="text">
-              <button class="popup__save-button button" type="submit">Сохранить</button>
+              <input id="name" name="name" class="popup__input" type="text">
+              <input id="description" name="description" class="popup__input" type="text">
+              <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
   </div>
-  <script src="script/script.js"></script>
+  <script src="script/index.js"></script>
 </body>
 </html>

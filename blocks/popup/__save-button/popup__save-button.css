@@ -13,6 +13,11 @@
   text-align: center;
 }
 
+.popup__save-button:hover {
+  cursor: pointer;
+  opacity: 80%;
+  transition: 0.3s opacity linear;
+}
 @media screen and (max-width: 880px) {
   .popup__save-button {
     margin-top: 45px;
