@@ -6,3 +6,9 @@
   padding: 0;
   background: rgba(255, 255, 255, 0) url("../../../images/like_icon.svg") no-repeat center/cover;
 }
+
+.location__like-button:hover {
+  cursor: pointer;
+  opacity: 50%;
+  transition: 0.3s opacity linear;
+}
