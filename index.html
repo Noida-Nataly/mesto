@@ -25,65 +25,51 @@
           </section>
         <section class="location container">
           <ul class="location__list">
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Древний храм Карачаевск" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Карачаевск</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div>
-            </li>
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Гора Эльбрус</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div></li>
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Горы Домбая" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Домбай</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div>
-            </li>
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Гора Эльбрус</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div>  
-            </li>
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Горы Домбая" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Домбай</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div>
-            </li>
-            <li class="location__card">
-              <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Древний храм Карачаевск" class="location__image">
-              <div class="location__description">
-                <h2 class="location__title">Карачаево-Черкессия</h2>
-                <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
-              </div>
-            </li>
           </ul>
          </section>
       </main>
       <footer class="footer container">
        <p class="footer__paragraph"> &copy; 2022 Mesto Russia </p>
       </footer>
-    <div class="popup">
+    
+    <div id="popup-profile" class="popup">
       <div class="popup__container">
-        <button class="popup__close-button button" type="button" aria-label="Закрыть"></button>
+        <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
         <form class="popup__content" name="profile">
               <h2 class="popup__title">Редактировать профиль</h2>
-              <input id="name" name="name" class="popup__input" type="text">
-              <input id="description" name="description" class="popup__input" type="text">
-              <button class="popup__save-button" type="submit">Сохранить</button>
+              <input id="name-profile" name="name-profile" class="popup__input" type="text">
+              <input id="description-profile" name="description-profile" class="popup__input" type="text">
+              <button class="popup__save-button close-popup" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    
+    <div id="popup-place" class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
+        <form class="popup__content" name="place">
+          <h2 class="popup__title">Новое место</h2>
+          <input id="place-name" name="place-name" class="popup__input" type="text" placeholder="Название">
+          <input id="place-link" name="place-link" class="popup__input" type="text" placeholder="Ссылка на картинку">
+          <button class="popup__save-button close-popup" type="submit">Создать</button>
         </form>
       </div>
     </div>
   </div>
-  <script src="script/index.js"></script>
+  <template class="place-template">
+    <li class="location__card">
+      <div class="location__wrapper">
+        <img  alt="" class="location__image">
+        <div>
+          <button class="location__delete-button button" type="button" aria-label="Удалить место"></button>
+        </div>
+      </div>
+      <div class="location__description">
+        <h2 class="location__title"></h2>
+        <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
+      </div>
+    </li>
+  </template>
+  <script type="module" src="script/index.js"></script>
 </body>
 </html>
