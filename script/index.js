@@ -5,7 +5,7 @@ const popupEdit = document.querySelector('#popup-profile'); // Поиск всп
 const addButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
 const popupAdd = document.querySelector('#popup-place'); // Поиск всплывающего окна добавления карточки места
 const popupForm = document.querySelectorAll('.popup__content')  // Поиск форм редактирования информации
-const closePopup = document.querySelectorAll('.close-popup'); // Поиск кнопок закрытия формы без сохранения
+const popupClose = document.querySelectorAll('.close-popup'); // Поиск кнопок закрытия формы без сохранения
 const popupZoom = document.querySelector('#popup-zoom'); // Поиск модального окна увеличенной картинки
 
 let profileName = document.querySelector('.profile__name'); // Поиск места хранения имени профиля
@@ -16,7 +16,7 @@ let fieldPlaceName = document.querySelector('#place-name'); // Поиск пол
 let fieldPlaceLink = document.querySelector('#place-link'); // Поиск поля ввода ссылки на картинку
 
 // Обработчик события открытия popup, добавление popup_opened
-function popupOpen(evt) {
+function openPopup(evt) {
   const arrayClasses = evt.target.classList;  // Выбор целевого объекта события и извлечение его массива классов 
   if (arrayClasses.contains('profile__add-button')) {  // проверка формы, которую нужно открыть  
     popupAdd.classList.add('popup_opened');                 // открываем popup добавления картинки
@@ -38,25 +38,21 @@ function popupOpen(evt) {
 }
 
 // Функция закрытия popup
-function popupClose() {
+function closePopup() {
   popupEdit.classList.remove('popup_opened');
   popupAdd.classList.remove('popup_opened');
   popupZoom.classList.remove('popup_opened');
 }
 
-// функция сохранения введенных данных из формы 
-function popupDataSave(evt) {
-  const formName = evt.target.name;  // выбор имени объекта события
-  if (formName === 'profile') {
-    profileName.textContent = fieldName.value;
-    profileDescription.textContent = fieldDescription.value;
-  }
-  else if (formName === 'place') {
-    createPlace (fieldPlaceName.value, fieldPlaceLink.value, fieldPlaceName.value);
-    fieldPlaceName.value = null;
-    fieldPlaceLink.value = null;
-  }
-  evt.preventDefault();
+// Удаление карточки по нажатию кнопки 
+function deleteCard(evt) {
+  const card = evt.target.closest('.location__card'); // выбор карточки, из которой вызвали событие
+  card.remove();
+}
+
+// Добавление/удаление лайка по нажатию кнопки
+function likeCard(evt) {
+  evt.target.classList.toggle('location__like-button_active');
 }
 
 // Функция создания и добавления новой карточки в начало списка;
@@ -70,30 +66,34 @@ function createPlace(title, link, alt) {
   card.querySelector('.location__image').alt = alt;
   card.querySelector('.location__like-button').addEventListener('click', likeCard); // добавляем отслеживание лайка на вновь созданные карты
   card.querySelector('.location__delete-button').addEventListener('click', deleteCard); // добавляем отслеживание удаления на вновь созданные карты
-  card.querySelector('.location__image').addEventListener('click', popupOpen); // добавляем отслеживание клика по вновь созданной картинке
+  card.querySelector('.location__image').addEventListener('click', openPopup); // добавляем отслеживание клика по вновь созданной картинке
   list.prepend(card);
 }
 
+// функция сохранения введенных данных из формы 
+function savePopupData(evt) {
+  const formName = evt.target.name;  // выбор имени объекта события
+  if (formName === 'profile') {
+    profileName.textContent = fieldName.value;
+    profileDescription.textContent = fieldDescription.value;
+  }
+  else if (formName === 'place') {
+    createPlace (fieldPlaceName.value, fieldPlaceLink.value, fieldPlaceName.value);
+    fieldPlaceName.value = null;
+    fieldPlaceLink.value = null;
+  }
+  evt.preventDefault();
+}
+
 // Отслеживание событий по кнопкам редактирования профиля и добавления карточки
-editButton.addEventListener('click', popupOpen);
-addButton.addEventListener('click', popupOpen);
+editButton.addEventListener('click', openPopup);
+addButton.addEventListener('click', openPopup);
 
 // Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
-closePopup.forEach(button => button.addEventListener('click', popupClose));
+popupClose.forEach(button => button.addEventListener('click', closePopup));
 
 // Отслеживание событий по кнопкам с функцией сохранения данных, для всех элементов массива
-popupForm.forEach(button => button.addEventListener('submit', popupDataSave));
+popupForm.forEach(button => button.addEventListener('submit', savePopupData));
 
 // Генерация карточек при открытии страницы
 initialCards.forEach(card => createPlace(card.name, card.link, card.name));
-
-// Удаление карточки по нажатию кнопки 
-function deleteCard(evt) {
-  const card = evt.target.closest('.location__card'); // выбор карточки, из которой вызвали событие
-  card.remove();
-}
-
-// Добавление/удаление лайка по нажатию кнопки
-function likeCard(evt) {
-  evt.target.classList.toggle('location__like-button_active');
-}
