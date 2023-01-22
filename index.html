@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,54 +7,65 @@
   <title>Mesto</title>
   <link rel="stylesheet" href="./pages/index.css">
   </head>
-<body>
-  <div class="page">
-      <header class="header container">
-          <img src="./images/logo.svg" alt="Логотип Сервиса Место" class="header__logo">
-      </header>
-      <main>
-          <section class="profile container">
-              <img src="./images/avatar.jpg" alt="Аватар профиля" class="profile__avatar">
-              <div class="profile__info">
-                <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
-                <p class="profile__description">Исследователь океана</p>
-              </div>
-            <button class="profile__add-button button" type="button" aria-label="Добавить профиль"></button>
-          </section>
-        <section class="location container">
-          <ul class="location__list">
-          </ul>
-         </section>
-      </main>
-      <footer class="footer container">
-       <p class="footer__paragraph"> &copy; 2022 Mesto Russia </p>
-      </footer>
+<body class="page">
+    <header class="header container">
+        <img src="./images/logo.svg" alt="Логотип Сервиса Место" class="header__logo">
+    </header>
+    <main>
+        <section class="profile container">
+            <img src="./images/avatar.jpg" alt="Аватар профиля" class="profile__avatar">
+            <div class="profile__info">
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
+              <p class="profile__description">Исследователь океана</p>
+            </div>
+          <button class="profile__add-button button" type="button" aria-label="Добавить профиль"></button>
+        </section>
+      <section class="location container">
+        <ul class="location__list">
+        </ul>
+       </section>
+    </main>
+    <footer class="footer container">
+     <p class="footer__paragraph"> &copy; 2022 Mesto Russia </p>
+    </footer>
     
-    <div id="popup-profile" class="popup">
-      <div class="popup__container">
-        <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
-        <form class="popup__content" name="profile">
-              <h2 class="popup__title">Редактировать профиль</h2>
-              <input id="name-profile" name="name-profile" class="popup__input" type="text">
-              <input id="description-profile" name="description-profile" class="popup__input" type="text">
-              <button class="popup__save-button close-popup" type="submit">Сохранить</button>
-        </form>
-      </div>
-    </div>
-    
-    <div id="popup-place" class="popup">
-      <div class="popup__container">
-        <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
-        <form class="popup__content" name="place">
-          <h2 class="popup__title">Новое место</h2>
-          <input id="place-name" name="place-name" class="popup__input" type="text" placeholder="Название">
-          <input id="place-link" name="place-link" class="popup__input" type="text" placeholder="Ссылка на картинку">
-          <button class="popup__save-button close-popup" type="submit">Создать</button>
-        </form>
-      </div>
+  <!--Попап редактирования профиля-->
+  <div id="popup-profile" class="popup">
+    <div class="popup__container">
+      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
+      <form class="popup__content" name="profile">
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <input id="name-profile" name="name-profile" class="popup__input" type="text">
+            <input id="description-profile" name="description-profile" class="popup__input" type="text">
+            <button class="popup__save-button close-popup" type="submit">Сохранить</button>
+      </form>
     </div>
   </div>
+    
+  <!--Попап добавления карточки-->
+  <div id="popup-place" class="popup">
+    <div class="popup__container">
+      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
+      <form class="popup__content" name="place">
+        <h2 class="popup__title">Новое место</h2>
+        <input id="place-name" name="place-name" class="popup__input" type="text" placeholder="Название">
+        <input id="place-link" name="place-link" class="popup__input" type="text" placeholder="Ссылка на картинку">
+        <button class="popup__save-button close-popup" type="submit">Создать</button>
+      </form>
+    </div>
+  </div>
+    
+  <!--Попап зумм фотографии-->
+  <div id="popup-zoom" class="popup">
+    <div class="popup__container popup__container_type_zoom-image">
+      <img class="popup__zoom-image" src="#" alt="">
+      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
+      <h2 class="popup__comment"></h2>
+    </div>
+  </div>
+    
+  <!-- Шаблон новой карточки-->  
   <template class="place-template">
     <li class="location__card">
       <div class="location__wrapper">
