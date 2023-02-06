@@ -33,12 +33,33 @@
   <!--Попап редактирования профиля-->
   <div id="popup-profile" class="popup">
     <div class="popup__container">
-      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
-      <form class="popup__content" name="profile">
+      <button class="popup__close-button button close-popup" 
+              type="button" 
+              aria-label="Закрыть"></button>
+      <form id="form-profile" 
+            class="popup__content" 
+            name="profile"
+            novalidate>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input id="name-profile" name="name-profile" class="popup__input" type="text">
-            <input id="description-profile" name="description-profile" class="popup__input" type="text">
-            <button class="popup__save-button close-popup" type="submit">Сохранить</button>
+            <input
+              id="name-profile"
+              name="name-profile"
+              class="popup__input"
+              type="text" minlength="2"
+              maxlength="40"
+              required>
+            <span id = "name-profile-error" class="popup__error-message"></span>
+            <input
+              id="description-profile"
+              name="description-profile"
+              class="popup__input"
+              type="text" minlength="2"
+              maxlength="200"
+              required>
+            <span id = "description-profile-error" class="popup__error-message"></span>
+            <button id="form-profile-save" 
+                    class="popup__save-button close-popup" 
+                    type="submit">Сохранить</button>
       </form>
     </div>
   </div>
@@ -46,12 +67,35 @@
   <!--Попап добавления карточки-->
   <div id="popup-place" class="popup">
     <div class="popup__container">
-      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
-      <form class="popup__content" name="place">
+      <button class="popup__close-button button close-popup" 
+              type="button" 
+              aria-label="Закрыть"></button>
+      <form id="form-place" 
+            class="popup__content" 
+            name="place"
+            novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <input id="place-name" name="place-name" class="popup__input" type="text" placeholder="Название">
-        <input id="place-link" name="place-link" class="popup__input" type="text" placeholder="Ссылка на картинку">
-        <button class="popup__save-button close-popup" type="submit">Создать</button>
+        <input
+          id="place-name"
+          name="place-name"
+          class="popup__input"
+          type="text"
+          placeholder="Название"
+          minlength="2"
+          maxlength="30"
+          required>
+        <span id = "place-name-error" class="popup__error-message"></span>
+        <input
+          id="place-link"
+          name="place-link"
+          class="popup__input"
+          type="url"
+          placeholder="Ссылка на картинку"
+          required>
+        <span id = "place-link-error" class="popup__error-message"></span>
+        <button id="form-place-save" 
+                class="popup__save-button close-popup"
+                type="submit">Создать</button>
       </form>
     </div>
   </div>
@@ -60,7 +104,9 @@
   <div id="popup-zoom" class="popup">
     <div class="popup__container popup__container_type_zoom-image">
       <img class="popup__zoom-image" src="#" alt="">
-      <button class="popup__close-button button close-popup" type="button" aria-label="Закрыть"></button>
+      <button class="popup__close-button button close-popup"
+              type="button"
+              aria-label="Закрыть"></button>
       <h2 class="popup__comment"></h2>
     </div>
   </div>
@@ -71,15 +117,20 @@
       <div class="location__wrapper">
         <img  alt="" class="location__image">
         <div>
-          <button class="location__delete-button button" type="button" aria-label="Удалить место"></button>
+          <button class="location__delete-button button"
+                  type="button"
+                  aria-label="Удалить место"></button>
         </div>
       </div>
       <div class="location__description">
         <h2 class="location__title"></h2>
-        <button class="location__like-button button" type="button" aria-label="Отметить избранное"></button>
+        <button class="location__like-button button"
+                type="button"
+                aria-label="Отметить избранное"></button>
       </div>
     </li>
   </template>
   <script type="module" src="script/index.js"></script>
+  <script type="module" src="script/validation.js"></script>
 </body>
 </html>
