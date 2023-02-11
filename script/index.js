@@ -1,48 +1,108 @@
-import {initialCards} from './data_cards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
+import {initialCards} from './dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
 
-const editButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
-const popupEdit = document.querySelector('#popup-profile'); // Поиск всплывающего окна редактирования профиля
-const addButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
-const popupAdd = document.querySelector('#popup-place'); // Поиск всплывающего окна добавления карточки места
-const popupForm = document.querySelectorAll('.popup__content')  // Поиск форм редактирования информации
-const popupClose = document.querySelectorAll('.close-popup'); // Поиск кнопок закрытия формы без сохранения
+const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
+const popupProfileEdit = document.querySelector('#popup-profile'); // Поиск всплывающего окна редактирования профиля
+const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
+const popupAddCard = document.querySelector('#popup-place'); // Поиск всплывающего окна добавления карточки места
+const popupProfileForm = document.forms['form-profile'];  // Поиск форм редактирования информации
+const popupCardAddForm = document.forms['form-place'] ; // Поиск форм редактирования информации
+const closeButtons = document.querySelectorAll('.close-popup'); // Поиск кнопок закрытия формы без сохранения
 const popupZoom = document.querySelector('#popup-zoom'); // Поиск модального окна увеличенной картинки
-
-let profileName = document.querySelector('.profile__name'); // Поиск места хранения имени профиля
-let profileDescription = document.querySelector('.profile__description'); // Поиск места хранения описания профиля
-let fieldName = document.querySelector('#name-profile'); // Поиск поля ввода имени профиля
-let fieldDescription = document.querySelector('#description-profile'); // Поиск поля ввода описания профиля
-let fieldPlaceName = document.querySelector('#place-name'); // Поиск поля ввода названия места
-let fieldPlaceLink = document.querySelector('#place-link'); // Поиск поля ввода ссылки на картинку
-
-// Обработчик события открытия popup, добавление popup_opened
-function openPopup(evt) {
-  const arrayClasses = evt.target.classList;  // Выбор целевого объекта события и извлечение его массива классов 
-  if (arrayClasses.contains('profile__add-button')) {  // проверка формы, которую нужно открыть  
-    popupAdd.classList.add('popup_opened');                 // открываем popup добавления картинки
-  }
-  else if (arrayClasses.contains('profile__edit-button')) { // открываем popup редактирования профиля и заполняем его
-          fieldName.value = profileName.textContent;
-          fieldDescription.value = profileDescription.textContent;
-          popupEdit.classList.add('popup_opened');
-  }
-  else if (arrayClasses.contains('location__image')) {  //открываем popup увеличенной фотографии места
-    //выбираем название карточки места
-    const placeName = evt.target.closest('.location__card').querySelector('.location__title').textContent;
-    popupZoom.querySelector('.popup__comment').textContent = placeName;
-    // выбираем ссылку на фотографию места
-    popupZoom.querySelector('.popup__zoom-image').src = evt.target.src;
-    // открываем попап картинки
-    popupZoom.classList.add('popup_opened');
-  }
-}
+const profileName = document.querySelector('.profile__name'); // Поиск места хранения имени профиля
+const profileDescription = document.querySelector('.profile__description'); // Поиск места хранения описания профиля
+const fieldName = document.querySelector('#name-profile'); // Поиск поля ввода имени профиля
+const fieldDescription = document.querySelector('#description-profile'); // Поиск поля ввода описания профиля
+const fieldPlaceName = document.querySelector('#place-name'); // Поиск поля ввода названия места
+const fieldPlaceLink = document.querySelector('#place-link'); // Поиск поля ввода ссылки на картинку
+const list = document.querySelector('.location__list'); // Поиск списка карточек (мест)
+const template = document.querySelector('.place-template'); // Поиск шаблона карточки (места)
+const zoomImage = popupZoom.querySelector('.popup__zoom-image'); // Поиск увеличиваемой картинки
+const zoomComment = popupZoom.querySelector('.popup__comment'); // Поиск наименования увеличиваемой картинки
 
 // Функция закрытия popup
-function closePopup() {
-  popupEdit.classList.remove('popup_opened');
-  popupAdd.classList.remove('popup_opened');
-  popupZoom.classList.remove('popup_opened');
+function closePopup(parentPopup) {
+  parentPopup.classList.remove('popup_opened');
 }
+
+// Функция закрытия popup по клику на оверлей
+const closePopupOnOverlayClick = (evt) => {
+  if(evt.target.classList.contains('popup_opened')) {
+    closePopup(evt.target);
+    document.removeEventListener('mousedown', closePopupOnOverlayClick);
+  }
+}
+
+const closePopupOnEscapeClick = (evt) => {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+    document.removeEventListener('keydown', closePopupOnEscapeClick);
+  }
+}
+
+// Функция добавления обработчиков при открытии popup и очистка полей формы
+function initPopup(popup) {
+  const formElement = popup.querySelector('.popup__content');
+  if (formElement) {
+    formElement.reset();
+  }
+  document.addEventListener('mousedown', closePopupOnOverlayClick);
+  document.addEventListener('keydown', closePopupOnEscapeClick);
+}
+  
+// Обработчик события открытия popup, добавление класса popup_opened
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  initPopup(popup);
+}
+
+// Отслеживание событий по кнопкам редактирования профиля и открытие формы редактирования профиля
+profileEditButton.addEventListener('click', () => {
+  openPopup(popupProfileEdit);
+  fieldName.value = profileName.textContent;
+  fieldDescription.value = profileDescription.textContent;
+});
+
+// Отслеживание событий по кнопкам редактирования профиля и открытие формы добавления нового места
+cardAddButton.addEventListener('click', () => {
+  openPopup(popupAddCard);
+});
+
+// Открытие popup - просмотр увеличенной картинки
+function openPopupZoom(title, link) {
+  zoomComment.textContent = title;
+  zoomImage.src = link;
+  zoomImage.alt = title;
+  openPopup(popupZoom);
+}
+
+// Функция создания новой карточки (передача в шаблон карточки - имени, ссылки и описания(= имени)
+function getCard(title, link, alt) {
+  const card = template.content.cloneNode(true);
+  const image = card.querySelector('.location__image');
+  card.querySelector('.location__title').textContent = title; // добавляем карточке наименование
+  image.src = link;               // добавляем картинке ссылку
+  image.alt = alt;                // добавляем картинке описание
+  card.querySelector('.location__like-button').addEventListener('click', toggleLike); // добавляем отслеживание лайка на вновь созданные карты
+  card.querySelector('.location__delete-button').addEventListener('click', deleteCard); // добавляем отслеживание удаления на вновь созданные карты
+  image.addEventListener('click', () => {openPopupZoom(title, link)}); // добавляем отслеживание клика по вновь созданной картинке
+  return card;
+}
+
+// Функция добавления новой карточки в начало списка;
+function createPlace (title, link, alt) {
+  const card = getCard (title, link, alt);
+  list.prepend(card);
+}
+
+// Генерация карточек при открытии страницы
+initialCards.forEach(card => createPlace(card.name, card.link, card.name));
+
+// Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
+closeButtons.forEach(button => {
+  const parentPopup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(parentPopup));
+});
 
 // Удаление карточки по нажатию кнопки 
 function deleteCard(evt) {
@@ -51,49 +111,23 @@ function deleteCard(evt) {
 }
 
 // Добавление/удаление лайка по нажатию кнопки
-function likeCard(evt) {
+function toggleLike(evt) {
   evt.target.classList.toggle('location__like-button_active');
 }
 
-// Функция создания и добавления новой карточки в начало списка;
-// передача в карточку имени, ссылки и описания (= имени)
-function createPlace(title, link, alt) {
-  const list = document.querySelector('.location__list');
-  const template = document.querySelector('.place-template');
-  const card = template.content.cloneNode(true);
-  card.querySelector('.location__title').textContent = title;
-  card.querySelector('.location__image').src = link;
-  card.querySelector('.location__image').alt = alt;
-  card.querySelector('.location__like-button').addEventListener('click', likeCard); // добавляем отслеживание лайка на вновь созданные карты
-  card.querySelector('.location__delete-button').addEventListener('click', deleteCard); // добавляем отслеживание удаления на вновь созданные карты
-  card.querySelector('.location__image').addEventListener('click', openPopup); // добавляем отслеживание клика по вновь созданной картинке
-  list.prepend(card);
-}
-
-// функция сохранения введенных данных из формы 
-function savePopupData(evt) {
-  const formName = evt.target.name;  // выбор имени объекта события
-  if (formName === 'profile') {
+function handleProfileFormSave(evt) {
     profileName.textContent = fieldName.value;
     profileDescription.textContent = fieldDescription.value;
-  }
-  else if (formName === 'place') {
-    createPlace (fieldPlaceName.value, fieldPlaceLink.value, fieldPlaceName.value);
-    fieldPlaceName.value = null;
-    fieldPlaceLink.value = null;
-  }
-  evt.preventDefault();
+    evt.preventDefault();
 }
 
-// Отслеживание событий по кнопкам редактирования профиля и добавления карточки
-editButton.addEventListener('click', openPopup);
-addButton.addEventListener('click', openPopup);
-
-// Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
-popupClose.forEach(button => button.addEventListener('click', closePopup));
-
-// Отслеживание событий по кнопкам с функцией сохранения данных, для всех элементов массива
-popupForm.forEach(button => button.addEventListener('submit', savePopupData));
-
-// Генерация карточек при открытии страницы
-initialCards.forEach(card => createPlace(card.name, card.link, card.name));
+// функция сохранения данных, введенных в форму добавления карточки места 
+function handleCardFormSave(evt) {
+    createPlace (fieldPlaceName.value, fieldPlaceLink.value, fieldPlaceName.value);
+    evt.target.reset();
+    evt.preventDefault();
+}
+ 
+// Отслеживание событий по кнопкам с функцией сохранения данных, для всех элементов
+popupProfileForm.addEventListener ('submit', handleProfileFormSave);
+popupCardAddForm.addEventListener ('submit', handleCardFormSave);
