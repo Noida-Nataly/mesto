@@ -22,13 +22,14 @@ const zoomComment = popupZoom.querySelector('.popup__comment'); // Поиск н
 // Функция закрытия popup
 function closePopup(parentPopup) {
   parentPopup.classList.remove('popup_opened');
+  document.removeEventListener('mousedown', closePopupOnOverlayClick);
+  document.removeEventListener('keydown', closePopupOnEscapeClick);
 }
 
 // Функция закрытия popup по клику на оверлей
 const closePopupOnOverlayClick = (evt) => {
   if(evt.target.classList.contains('popup_opened')) {
     closePopup(evt.target);
-    document.removeEventListener('mousedown', closePopupOnOverlayClick);
   }
 }
 
@@ -36,16 +37,16 @@ const closePopupOnEscapeClick = (evt) => {
   if (evt.key === 'Escape') {
     const popup = document.querySelector('.popup_opened');
     closePopup(popup);
-    document.removeEventListener('keydown', closePopupOnEscapeClick);
   }
 }
 
-// Функция добавления обработчиков при открытии popup и очистка полей формы
-function initPopup(popup) {
+function resetInputForms(popup) {
   const formElement = popup.querySelector('.popup__content');
-  if (formElement) {
-    formElement.reset();
-  }
+  formElement.reset();
+}
+
+// Функция добавления обработчиков при открытии popup и очистка полей формы
+function initPopup() {
   document.addEventListener('mousedown', closePopupOnOverlayClick);
   document.addEventListener('keydown', closePopupOnEscapeClick);
 }
@@ -53,12 +54,13 @@ function initPopup(popup) {
 // Обработчик события открытия popup, добавление класса popup_opened
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  initPopup(popup);
+  initPopup();
 }
 
 // Отслеживание событий по кнопкам редактирования профиля и открытие формы редактирования профиля
 profileEditButton.addEventListener('click', () => {
   openPopup(popupProfileEdit);
+  resetInputForms(popupProfileEdit);
   fieldName.value = profileName.textContent;
   fieldDescription.value = profileDescription.textContent;
 });
@@ -66,6 +68,7 @@ profileEditButton.addEventListener('click', () => {
 // Отслеживание событий по кнопкам редактирования профиля и открытие формы добавления нового места
 cardAddButton.addEventListener('click', () => {
   openPopup(popupAddCard);
+  resetInputForms(popupAddCard);
 });
 
 // Открытие popup - просмотр увеличенной картинки
