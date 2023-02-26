@@ -1,4 +1,5 @@
 import {initialCards} from './dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
+import Card from "./Card.js";
 
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const popupProfileEdit = document.querySelector('#popup-profile'); // Поиск всплывающего окна редактирования профиля
@@ -15,7 +16,7 @@ const fieldDescription = document.querySelector('#description-profile'); // По
 const fieldPlaceName = document.querySelector('#place-name'); // Поиск поля ввода названия места
 const fieldPlaceLink = document.querySelector('#place-link'); // Поиск поля ввода ссылки на картинку
 const list = document.querySelector('.location__list'); // Поиск списка карточек (мест)
-const template = document.querySelector('.place-template'); // Поиск шаблона карточки (места)
+const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
 const zoomImage = popupZoom.querySelector('.popup__zoom-image'); // Поиск увеличиваемой картинки
 const zoomComment = popupZoom.querySelector('.popup__comment'); // Поиск наименования увеличиваемой картинки
 
@@ -79,44 +80,20 @@ function openPopupZoom(title, link) {
   openPopup(popupZoom);
 }
 
-// Функция создания новой карточки (передача в шаблон карточки - имени, ссылки и описания(= имени)
-function getCard(title, link, alt) {
-  const card = template.content.cloneNode(true);
-  const image = card.querySelector('.location__image');
-  card.querySelector('.location__title').textContent = title; // добавляем карточке наименование
-  image.src = link;               // добавляем картинке ссылку
-  image.alt = alt;                // добавляем картинке описание
-  card.querySelector('.location__like-button').addEventListener('click', toggleLike); // добавляем отслеживание лайка на вновь созданные карты
-  card.querySelector('.location__delete-button').addEventListener('click', deleteCard); // добавляем отслеживание удаления на вновь созданные карты
-  image.addEventListener('click', () => {openPopupZoom(title, link)}); // добавляем отслеживание клика по вновь созданной картинке
-  return card;
-}
-
 // Функция добавления новой карточки в начало списка;
-function createPlace (title, link, alt) {
-  const card = getCard (title, link, alt);
-  list.prepend(card);
+function createPlace (title, link) {
+  const card = new Card (title, link, templateSelector, openPopupZoom);
+  list.prepend(card.getCard());
 }
 
 // Генерация карточек при открытии страницы
-initialCards.forEach(card => createPlace(card.name, card.link, card.name));
+initialCards.forEach(card => createPlace(card.name, card.link));
 
 // Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
 closeButtons.forEach(button => {
   const parentPopup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(parentPopup));
 });
-
-// Удаление карточки по нажатию кнопки 
-function deleteCard(evt) {
-  const card = evt.target.closest('.location__card'); // выбор карточки, из которой вызвали событие
-  card.remove();
-}
-
-// Добавление/удаление лайка по нажатию кнопки
-function toggleLike(evt) {
-  evt.target.classList.toggle('location__like-button_active');
-}
 
 function handleProfileFormSave(evt) {
     profileName.textContent = fieldName.value;
@@ -126,7 +103,7 @@ function handleProfileFormSave(evt) {
 
 // функция сохранения данных, введенных в форму добавления карточки места 
 function handleCardFormSave(evt) {
-    createPlace (fieldPlaceName.value, fieldPlaceLink.value, fieldPlaceName.value);
+    createPlace (fieldPlaceName.value, fieldPlaceLink.value);
     evt.target.reset();
     evt.preventDefault();
 }
