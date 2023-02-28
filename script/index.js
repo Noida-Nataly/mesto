@@ -1,5 +1,6 @@
-import {initialCards} from './dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
+import {initialCards, validationConfig} from './dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
 import Card from "./Card.js";
+import FormValidator from './FormValidator.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const popupProfileEdit = document.querySelector('#popup-profile'); // Поиск всплывающего окна редактирования профиля
@@ -107,7 +108,18 @@ function handleCardFormSave(evt) {
     evt.target.reset();
     evt.preventDefault();
 }
- 
+
+// Валидация форм
+const enableValidation = (validationConfig) => {
+  const formList = Array.from(document.forms);         //Создание массива всех форм страницы 
+  formList.forEach((formElement) => {                // Добавление обработчика на каждую форму с типом submit
+    const formValidator = new FormValidator(formElement, validationConfig);
+    formValidator.enableValidation();
+  });
+}
+
+enableValidation(validationConfig);
+
 // Отслеживание событий по кнопкам с функцией сохранения данных, для всех элементов
 popupProfileForm.addEventListener ('submit', handleProfileFormSave);
 popupCardAddForm.addEventListener ('submit', handleCardFormSave);
