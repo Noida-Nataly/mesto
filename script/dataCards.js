@@ -1,3 +1,4 @@
+// Данные для загрузки на страницу при открытии
 export const initialCards = [
   {
     name: 'Архыз',
@@ -24,3 +25,10 @@ export const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+// Классы для валидации
+export const validationConfig = {
+  inputErrorClass: 'popup__input_type_error',
+  saveButtonInactiveClass: 'popup__save-button_inactive',
+  popupInputSelector: '.popup__input'
+}
