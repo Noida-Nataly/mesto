@@ -6,25 +6,17 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 
-
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
-const popupProfileEdit = document.querySelector('#popup-profile'); // Поиск всплывающего окна редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
-const popupAddCard = document.querySelector('#popup-place'); // Поиск всплывающего окна добавления карточки места
-const popupProfileForm = document.forms['form-profile'];  // Поиск форм редактирования информации
-const popupCardAddForm = document.forms['form-place'] ; // Поиск форм редактирования информации
-//const closeButtons = document.querySelectorAll('.close-popup'); // Поиск кнопок закрытия формы без сохранения
-const popupZoom = document.querySelector('#popup-zoom'); // Поиск модального окна увеличенной картинки
-const profileName = document.querySelector('.profile__name'); // Поиск места хранения имени профиля
-const profileDescription = document.querySelector('.profile__description'); // Поиск места хранения описания профиля
-const fieldName = document.querySelector('#name-profile'); // Поиск поля ввода имени профиля
-const fieldDescription = document.querySelector('#description-profile'); // Поиск поля ввода описания профиля
-const fieldPlaceName = document.querySelector('#place-name'); // Поиск поля ввода названия места
-const fieldPlaceLink = document.querySelector('#place-link'); // Поиск поля ввода ссылки на картинку
-//const list = document.querySelector('.location__list'); // Поиск списка карточек (мест)
 const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
-const zoomImage = popupZoom.querySelector('.popup__zoom-image'); // Поиск увеличиваемой картинки
-const zoomComment = popupZoom.querySelector('.popup__comment'); // Поиск наименования увеличиваемой картинки
+
+//РАБОТА С КЛАССОМ SECTION
+
+// Функция создания новой карточки для добавления на страницу;
+function createCard (title, link) {
+  const card = new Card (title, link, templateSelector, handleCardClick);
+  return(card.getCard());
+}
 
 //Создание экземпляра класса Section
 const section = new Section({
@@ -37,81 +29,65 @@ const section = new Section({
   '.location__list'
 );
 
-// Функция создания новой карточки для добавления на страницу;
-function createCard (title, link) {
-  const card = new Card (title, link, templateSelector, handleCardClick);
-  return(card.getCard());
+// Создание на странице первоначальных карточек
+section.renderItems();
+
+//РАБОТА С POPUP ДЛЯ ДОБАВЛЕНИЯ КАРТОЧКИ
+
+// Функция сохранения данных, введенных в форму добавления карточки места 
+function handleCardFormSave(data) {
+  const card = createCard (data['place-name'], data['place-link']);
+  section.addItem(card);
 }
 
-// функция сохранения данных, введенных в форму добавления карточки места 
-function handleCardFormSave(evt) {
-  const card = createCard (fieldPlaceName.value, fieldPlaceLink.value);
-  section.addItem(card);
-  evt.target.reset();
-  evt.preventDefault();
-}
+// Создание экземпляра класса PopupWithForm c формой создания карточки
+const popupFormAddCard = new PopupWithForm('#popup-place', handleCardFormSave);
+
+// Добавление слушателя на открытие формы создания новой карточки
+cardAddButton.addEventListener('click', () => { popupFormAddCard.open(); });
+
+//Вызов метода установки слушателей на события формы создания карточки и ее очистку
+popupFormAddCard.setEventListener();
+
+//РАБОТА С POPUP ДЛЯ ИЗМЕНЕНИЯ ПРОФИЛЯ
 
 // Создание экземпляра класса UserInfo
 const userInfo = new UserInfo (
   {
     nameProfileSelector: '.profile__name',
-    descriptionProfileSelector:'.profile__description'
+    infoProfileSelector:'.profile__description'
   }
 );
 
-// Создание экземпляра класса PopupWithForm c формой редактирования профиля
-const popupFormProfile = new PopupWithForm('popup-profile',
-  ({name,info}) => {userInfo.setUserInfo({name,info});}
-);
-
-// Создание экземпляра класса PopupWithForm c формой создания карточки
-const popupFormAddCard = new PopupWithForm('popup-place',
-  ({title,link}) => {cardPlace.addItem(createCard({title,link}));}
-);
-
-
-// Очистка формы перед открытием
-function resetInputForms(popup) {
-  const formElement = popup.querySelector('.popup__content');
-  formElement.reset();
+// Функция сохранения данных пользователя из полей формы Profile на страницу
+function handleProfileFormSave (data) {
+  userInfo.setUserInfo(data['name-profile'], data['description-profile']);
 }
 
-// Отслеживание событий по кнопкам редактирования профиля и открытие формы редактирования профиля
+// Создание экземпляра класса PopupWithForm c формой редактирования профиля
+const popupFormProfile = new PopupWithForm('#popup-profile', handleProfileFormSave);
+
+// Отслеживание событий по кнопкам редактирования профиля, открытие формы редактирования профиля, и заполнения данными ее полей
 profileEditButton.addEventListener('click', () => {
-  open(popupProfileEdit);
-  resetInputForms(popupProfileEdit);
-  fieldName.value = profileName.textContent;
-  fieldDescription.value = profileDescription.textContent;
+  popupFormProfile.open();
+  const dataUserInfo = userInfo.getUserInfo();
+  const data = {'name-profile': dataUserInfo.name, 'description-profile': dataUserInfo.info}
+  popupFormProfile.fillInFields(data);
 });
 
-// Отслеживание событий по кнопкам редактирования профиля и открытие формы добавления нового места
-cardAddButton.addEventListener('click', () => {
-  open(popupAddCard);
-  resetInputForms(popupAddCard);
-});
+// вызов метода добавления слушателей на popup формы редактирования профиля
+popupFormProfile.setEventListener();
+
+//РАБОТА С POPUP ZOOM IMAGE
+
+const popupZoomImage = new PopupWithImage('#popup-zoom');
 
 // Открытие popup - просмотр увеличенной картинки
 function handleCardClick(title, link) {
-  zoomComment.textContent = title;
-  zoomImage.src = link;
-  zoomImage.alt = title;
-  open(popupZoom);  
+  popupZoomImage.open(title, link);  
 }
 
-
-
-
-
-
-function handleProfileFormSave(evt) {
-    profileName.textContent = fieldName.value;
-    profileDescription.textContent = fieldDescription.value;
-    evt.preventDefault();
-}
-
-
-
-// Валидация форм
+// ВАЛИДАЦИЯ ФОРМ
 const enableValidation = (validationConfig) => {
   const formList = Array.from(document.forms);         //Создание массива всех форм страницы 
   formList.forEach((formElement) => {                // Добавление обработчика на каждую форму с типом submit
@@ -121,7 +97,3 @@ const enableValidation = (validationConfig) => {
 }
 
 enableValidation(validationConfig);
-
-// Отслеживание событий по кнопкам с функцией сохранения данных, для всех элементов
-popupProfileForm.addEventListener ('submit', handleProfileFormSave);
-popupCardAddForm.addEventListener ('submit', handleCardFormSave);

@@ -1,9 +1,9 @@
 import Popup from './Popup.js';
-export class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor (popupId, saveFormFunction) {
     super(popupId);
     this._saveFormFunction = saveFormFunction;
-    this._form = this._popup.forms.item(0);
+    this._form = this._popup.getElementsByTagName('form')[0];
     this._saveButton = this._form.querySelector('.popup__save-button');
     this._inputList = this._form.querySelectorAll('input');
     this._inputValues = {};
@@ -18,22 +18,17 @@ export class PopupWithForm extends Popup {
    return this._inputValues;
   }
   
-  // Метод установки слушателя на кнопку сохранения данных submit
+  // Метод установки слушателя на сохранение данных из полей формы и их очистку
   setEventListener() {
     super.setEventListener();
-    this._saveButton.addEventListener('submit', (evt) => {
+    this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._saveFormFunction(this._getInputValues());
-    })
-  }
-   // Метод очистки формы при закрытии popup
-  close() {
-    super.close();
-    this._form.reset();
+      this._form.reset();
+    });
   }
   
-  open(data) {
-    super.open();
+  fillInFields(data) {
     this._inputList.forEach((item) => {
       item.value = data[item.getAttribute('name')];
     });

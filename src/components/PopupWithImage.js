@@ -1,5 +1,5 @@
 import Popup from './Popup.js';
-export class PopupWithImage extends Popup {
+export default class PopupWithImage extends Popup {
   constructor (popupId) {
     super(popupId);
     this._image = this._popup.querySelector('.popup__zoom-image');
@@ -8,7 +8,7 @@ export class PopupWithImage extends Popup {
   }
   
   // Метод добавления картинки при открытии popup
-  open(link, title) {
+  open(title, link) {
     super.open();
     this._image.src = link;
     this._comment.textContent = title;

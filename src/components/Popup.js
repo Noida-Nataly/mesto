@@ -16,16 +16,16 @@ export default class Popup {
   }
 
   // Метод закрытия popup по клику на оверлей
-  _closePopupOnOverlayClick (evt) {
+  _closePopupOnOverlayClick = (evt) => {
     if(evt.target.classList.contains('popup_opened')) {
-      this.close(evt.target);
+      this.close();
     }
   }
 
   // Метод закрытия popup по клику на клавишу Escape
-  _closePopupOnEscapeClick (evt) {
+  _closePopupOnEscapeClick = (evt) => {
     if (evt.key === 'Escape') {
-      this.close(this._popup);
+      this.close();
     }
   }
 
