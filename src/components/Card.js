@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(name, link, templateSelector, openPopupZoom) {
+  constructor(name, link, templateSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._getTemplate(templateSelector);
-    this._openPopupZoom = openPopupZoom;
+    this._handleCardClick = handleCardClick;
   }
 
   // Поиск шаблона карточки
@@ -31,7 +31,7 @@ export default class Card {
   _setEventListeners (){
     this._card.querySelector('.location__like-button').addEventListener('click', this._toggleLike); // добавляем отслеживание лайка на вновь созданные карты
     this._card.querySelector('.location__delete-button').addEventListener('click', this._deleteCard); // добавляем отслеживание удаления на вновь созданные карты
-    this._image.addEventListener('click', () => {this._openPopupZoom(this._name, this._link)}); // добавляем отслеживание клика по вновь созданной картинке
+    this._image.addEventListener('click', () => {this._handleCardClick(this._name, this._link)}); // добавляем отслеживание клика по вновь созданной картинке
   }
     
   // Функция создания новой карточки (передача в шаблон карточки - имени, ссылки и описания(= имени)
