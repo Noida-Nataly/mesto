@@ -1,3 +1,5 @@
+import './index.css'; // добавьте импорт главного файла стилей 
+
 import {initialCards, validationConfig} from '../utils/dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
 import Card from "../components/Card.js";
 import FormValidator from '../components/FormValidator.js';
@@ -81,7 +83,7 @@ popupFormProfile.setEventListener();
 //РАБОТА С POPUP ZOOM IMAGE
 
 const popupZoomImage = new PopupWithImage('#popup-zoom');
-
+popupZoomImage.setEventListener();
 // Открытие popup - просмотр увеличенной картинки
 function handleCardClick(title, link) {
   popupZoomImage.open(title, link);  
