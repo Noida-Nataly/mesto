@@ -30,7 +30,7 @@ export default class Popup {
   }
 
   // Метод добавления обработчиков при открытии popup и очистка полей формы
-  _initPopup() {
+  _setCloseListeners() {
     document.addEventListener('mousedown', this._closePopupOnOverlayClick);
     document.addEventListener('keydown', this._closePopupOnEscapeClick);
   }
@@ -38,17 +38,16 @@ export default class Popup {
   // Обработчик события открытия popup, добавление класса popup_opened
   open() {
     this._popup.classList.add('popup_opened');
-    this._initPopup();
+    this._setCloseListeners();
   }
   
   setEventListener() {
     //Выбираем кнопки закрытия popup
-    this._closeButtons = this._popup.querySelectorAll('.close-popup');
+    this._closeButton = this._popup.querySelector('.close-popup');
     // Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
-    this._closeButtons.forEach(button => {
-      button.addEventListener('click', () => this.close());
+    this._closeButton.addEventListener('click', () => { 
+      this.close();
     });
   }
-
 }
 
