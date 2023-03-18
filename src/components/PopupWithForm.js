@@ -24,13 +24,20 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._saveFormFunction(this._getInputValues());
-      this._form.reset();
+      this.close();
     });
   }
   
+  // Метод заполнения полей формы данными со страницы
   fillInFields(data) {
     this._inputList.forEach((item) => {
       item.value = data[item.getAttribute('name')];
     });
+  }
+
+  // Метод закрытия popup и сброса значений
+  close() {
+    super.close();
+    this._form.reset();
   }
 }

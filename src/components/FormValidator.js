@@ -67,6 +67,7 @@ export default class FormValidator {
   
   // Добавление полям input обработчиков событий ввода
   _setEventListeners () {
+    this._toggleButtonState ();
     this._inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         this._checkValidity(inputElement);
@@ -78,10 +79,12 @@ export default class FormValidator {
   // Lобавление обработчика форм на обновление
  _setResetListeners () {
     this._formElement.addEventListener('reset', () => {
-      this._inputList.forEach(inputElement => {
-        this._hideInputError(inputElement);
-      });
-      this._toggleButtonState();
+      setTimeout(() => {
+          this._inputList.forEach(inputElement => {
+            this._hideInputError(inputElement);
+          });
+        this._toggleButtonState();
+      }, 100);
     });
  }
  
