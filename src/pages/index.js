@@ -1,16 +1,23 @@
 import './index.css'; // добавьте импорт главного файла стилей 
 
-import {initialCards, validationConfig} from '../utils/dataCards.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
+import {validationConfig, baseUrl, token} from '../utils/data.js'; // Подключение массива карточек для генерации галереи при загрузке страницы
 import Card from "../components/Card.js";
 import FormValidator from '../components/FormValidator.js';
 import UserInfo from "../components/UserInfo.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
+import Api from '../components/Api.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
 const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
+
+//СОЗДАНИЕ ЭКЗЕМПЛЯРА СЕРВИСА ПО ОБМЕНУ ДАННЫМИ С СЕРВЕРОМ
+
+const api = new Api(baseUrl, token);
+
+
 
 //РАБОТА С КЛАССОМ SECTION
 
@@ -21,18 +28,20 @@ function createCard (title, link) {
 }
 
 //Создание экземпляра класса Section
-const section = new Section({
-  items: initialCards,
-  renderer: (item) => {
+
+const section = new Section(
+  (item) => {
     const cardElement = createCard (item.name, item.link);
     section.addItem(cardElement);
-  }
-},
+    },
   '.location__list'
 );
 
 // Создание на странице первоначальных карточек
-section.renderItems();
+const initialCardsPromise = api.getInitialCards();
+initialCardsPromise.then(data => {
+  section.renderItems(data);
+})
 
 //РАБОТА С POPUP ДЛЯ ДОБАВЛЕНИЯ КАРТОЧКИ
 
