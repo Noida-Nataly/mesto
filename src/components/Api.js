@@ -4,7 +4,7 @@ export default class Api {
     this.token = token;
   }
   
-  _sendRequest (url, body) {
+  _sendRequest(url, body) {
     return fetch(url, {
       headers: {
         authorization: this.token 
@@ -13,9 +13,12 @@ export default class Api {
       .then(res => {return res.json()})
   }
   
-  getInitialCards () {
+  getUserInfo() {
+    return this._sendRequest(this.baseUrl+'/users/me');
+  }
+  
+  getInitialCards() {
     return this._sendRequest(this.baseUrl+'/cards', null );
-    
   }
   
 }

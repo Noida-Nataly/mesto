@@ -12,12 +12,22 @@ import Api from '../components/Api.js';
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
 const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
+let userId;
 
 //СОЗДАНИЕ ЭКЗЕМПЛЯРА СЕРВИСА ПО ОБМЕНУ ДАННЫМИ С СЕРВЕРОМ
 
 const api = new Api(baseUrl, token);
 
+// Создание экземпляра класса UserInfo
+const userInfo = new UserInfo (
+  {
+    nameProfileSelector: '.profile__name',
+    infoProfileSelector:'.profile__description',
+    avatarProfileSelector: '.profile__avatar'
+  }
+);
 
+const userInfoPromise = api.getUserInfo();
 
 //РАБОТА С КЛАССОМ SECTION
 
@@ -39,8 +49,12 @@ const section = new Section(
 
 // Создание на странице первоначальных карточек
 const initialCardsPromise = api.getInitialCards();
-initialCardsPromise.then(data => {
-  section.renderItems(data);
+
+Promise.all([userInfoPromise, initialCardsPromise])
+  .then(([userInfoResult, initialCardsResult]) => {
+    userId = userInfoResult._id;
+    userInfo.setUserInfo(userInfoResult.name, userInfoResult.about, userInfoResult.avatar);
+    section.renderItems(initialCardsResult);
 })
 
 //РАБОТА С POPUP ДЛЯ ДОБАВЛЕНИЯ КАРТОЧКИ
@@ -62,13 +76,7 @@ popupFormAddCard.setEventListener();
 
 //РАБОТА С POPUP ДЛЯ ИЗМЕНЕНИЯ ПРОФИЛЯ
 
-// Создание экземпляра класса UserInfo
-const userInfo = new UserInfo (
-  {
-    nameProfileSelector: '.profile__name',
-    infoProfileSelector:'.profile__description'
-  }
-);
+
 
 // Функция сохранения данных пользователя из полей формы Profile на страницу
 function handleProfileFormSave (data) {
