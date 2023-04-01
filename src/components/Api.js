@@ -4,21 +4,37 @@ export default class Api {
     this.token = token;
   }
   
-  _sendRequest(url, body) {
-    return fetch(url, {
-      headers: {
-        authorization: this.token 
-      }
-    })
-      .then(res => {return res.json()})
+  _sendRequest(url, parametrs) {
+    parametrs.headers = {
+      authorization: this.token,
+      'Content-Type': 'application/json'
+    };
+    return fetch(url, parametrs)
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+      return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
   
+  
   getUserInfo() {
-    return this._sendRequest(this.baseUrl+'/users/me');
+    return this._sendRequest(this.baseUrl+'/users/me', {});
   }
   
   getInitialCards() {
-    return this._sendRequest(this.baseUrl+'/cards', null );
+    return this._sendRequest(this.baseUrl+'/cards', {} );
+  }
+  
+  editProfile(name, about) {
+    return this._sendRequest(this.baseUrl+'/users/me', {
+      method: 'PATCH',
+        body: JSON.stringify({
+        name: name,
+        about: about
+      })
+    });
   }
   
 }

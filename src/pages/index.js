@@ -12,6 +12,7 @@ import Api from '../components/Api.js';
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
 const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
+const avatarEditButton = document.querySelector('.profile__avatar_edit-button'); // Поиск кнопки редактирования профиля
 let userId;
 
 //СОЗДАНИЕ ЭКЗЕМПЛЯРА СЕРВИСА ПО ОБМЕНУ ДАННЫМИ С СЕРВЕРОМ
@@ -56,6 +57,9 @@ Promise.all([userInfoPromise, initialCardsPromise])
     userInfo.setUserInfo(userInfoResult.name, userInfoResult.about, userInfoResult.avatar);
     section.renderItems(initialCardsResult);
 })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+});
 
 //РАБОТА С POPUP ДЛЯ ДОБАВЛЕНИЯ КАРТОЧКИ
 
@@ -80,7 +84,15 @@ popupFormAddCard.setEventListener();
 
 // Функция сохранения данных пользователя из полей формы Profile на страницу
 function handleProfileFormSave (data) {
-  userInfo.setUserInfo(data['name-profile'], data['description-profile']);
+  api.editProfile(data['name-profile'], data['description-profile'])
+  .then(() => {
+    const currentUserInfo = userInfo.getUserInfo();
+    userInfo.setUserInfo(data['name-profile'], data['description-profile'], currentUserInfo.avatar)
+  })
+  .catch((err) => {
+    console.log(err.message);
+  })
+  
 }
 
 // Создание экземпляра класса PopupWithForm c формой редактирования профиля
@@ -96,6 +108,24 @@ profileEditButton.addEventListener('click', () => {
 
 // вызов метода добавления слушателей на popup формы редактирования профиля
 popupFormProfile.setEventListener();
+
+//РАБОТА С POPUP АВАТАР
+
+// Функция сохранения аватара пользователя из полей формы Avatar на страницу
+function handlePopupAvatarFormSave(data) {
+  const userInfoData = userInfo.getUserInfo();
+  userInfo.setUserInfo (userInfoData.name, userInfoData.info, data['avatar-link']);
+}
+// Создание экземплара класса PopupWithForm c формой редактирования аватара
+const avatarPopup = new PopupWithForm('#popup-avatar', handlePopupAvatarFormSave);
+
+avatarPopup.setEventListener();
+avatarEditButton.addEventListener('click', () => {
+  const dataUserInfo = userInfo.getUserInfo();
+  const data = {'avatar-link': dataUserInfo.avatar}; //- получаем ссылку на текущий аватар
+  avatarPopup.fillInFields(data)// - заполняем поля
+  avatarPopup.open();
+});
 
 //РАБОТА С POPUP ZOOM IMAGE
 
