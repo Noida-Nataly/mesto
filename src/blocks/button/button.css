@@ -1,5 +1,5 @@
 .button:hover {
   cursor: pointer;
   opacity: 60%;
-  transition: 0.3s opacity linear;
+  transition: 0.5s opacity linear;
 }

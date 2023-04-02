@@ -21,7 +21,7 @@ export default class FormValidator {
   
   // Находим кнопку Сохранить в форме
   _getSaveButtonFromForm() {
-    this._saveButton = this._formElement.querySelector(`#${this._formElement.id}-save`);
+    this._saveButton = this._formElement.querySelector(`#${this._formElement.id}-button`);
   }
   
   // Метод добавления стиля ошибки и текста сообщения об ошибке для невалидного поля
@@ -76,7 +76,7 @@ export default class FormValidator {
     });
   }
 
-  // Lобавление обработчика форм на обновление
+  // Добавление обработчика форм на обновление
  _setResetListeners () {
     this._formElement.addEventListener('reset', () => {
       setTimeout(() => {

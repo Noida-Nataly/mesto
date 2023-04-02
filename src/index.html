@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,11 +12,13 @@
     </header>
     <main>
         <section class="profile container">
-            <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар профиля" class="profile__avatar">
+          <button class="profile__avatar_edit-button">
+            <img src="" alt="Аватар профиля" class="profile__avatar">
+          </button>
             <div class="profile__info">
-              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <h1 class="profile__name"></h1>
               <button class="profile__edit-button button" type="button" aria-label="Редактировать профиль"></button>
-              <p class="profile__description">Исследователь океана</p>
+              <p class="profile__description"></p>
             </div>
           <button class="profile__add-button button" type="button" aria-label="Добавить профиль"></button>
         </section>
@@ -28,6 +30,51 @@
     <footer class="footer container">
      <p class="footer__paragraph"> &copy; 2022 Mesto Russia </p>
     </footer>
+
+    <!--Попап обновления аватара-->
+    <div id="popup-avatar" class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button button close-popup"
+                type="button"
+                aria-label="Закрыть"></button>
+        <form id="form-avatar-save"
+              class="popup__content"
+              name="avatar"
+              novalidate>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <input
+            id="avatar-link"
+            name="avatar-link"
+            class="popup__input"
+            type="url"
+            placeholder="Ссылка на фотографию"
+            required>
+          <span id = "avatar-link-error" class="popup__error-message"></span>
+          <button id="form-avatar-save-button"
+                  class="popup__confirm-button"
+                  type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
+    <!--Попап подтверждение удаления карточки-->
+    <div id="popup-confirmation" class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button button close-popup"
+                type="button"
+                aria-label="Закрыть"></button>
+        <form id="form-confirmation"
+              class="popup__content"
+              name="confirmation"
+              novalidate>
+          <h2 class="popup__title">Вы уверены?</h2>
+          <button id="delete-confirmation"
+                  class="popup__confirm-button"
+                  type="submit">Да</button>
+        </form>
+      </div>
+    </div> 
+    
     
   <!--Попап редактирования профиля-->
   <div id="popup-profile" class="popup">
@@ -35,7 +82,7 @@
       <button class="popup__close-button button close-popup" 
               type="button" 
               aria-label="Закрыть"></button>
-      <form id="form-profile" 
+      <form id="form-profile-save" 
             class="popup__content" 
             name="profile"
             novalidate>
@@ -60,8 +107,8 @@
               maxlength="200"
               required>
             <span id = "description-profile-error" class="popup__error-message"></span>
-            <button id="form-profile-save" 
-                    class="popup__save-button" 
+            <button id="form-profile-save-button" 
+                    class="popup__confirm-button" 
                     type="submit">Сохранить</button>
       </form>
     </div>
@@ -73,7 +120,7 @@
       <button class="popup__close-button button close-popup" 
               type="button" 
               aria-label="Закрыть"></button>
-      <form id="form-place" 
+      <form id="form-place-save" 
             class="popup__content" 
             name="place"
             novalidate>
@@ -96,8 +143,8 @@
           placeholder="Ссылка на картинку"
           required>
         <span id = "place-link-error" class="popup__error-message"></span>
-        <button id="form-place-save" 
-                class="popup__save-button"
+        <button id="form-place-save-button" 
+                class="popup__confirm-button"
                 type="submit">Создать</button>
       </form>
     </div>
@@ -122,14 +169,19 @@
         <div>
           <button class="location__delete-button button"
                   type="button"
-                  aria-label="Удалить место"></button>
+                  aria-label="Удалить место">
+          </button>
         </div>
       </div>
       <div class="location__description">
         <h2 class="location__title"></h2>
-        <button class="location__like-button button"
-                type="button"
-                aria-label="Отметить избранное"></button>
+        <div class="location__like">
+          <button class="location__like-button button"
+                  type="button"
+                  aria-label="Отметить избранное">
+          </button>
+          <span class="location__like-count"></span>
+        </div>
       </div>
     </li>
   </template>
