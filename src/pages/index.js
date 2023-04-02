@@ -47,12 +47,16 @@ function handleToggleLike(card, cardId, isMyLike) {
 //Метод удаления карточки
 
 function confirmFormFunction(card) {
+  popupFormDeleteCard.renderLoading(true, "Удаление...");
   api.deleteCard(card.cardId)
     .then(() => {
       card.card.remove();
     })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
+    })
+    .finally(() => {
+      popupFormDeleteCard.renderLoading(false);
     })
 }
 
@@ -96,6 +100,7 @@ Promise.all([userInfoPromise, initialCardsPromise])
 
 // Функция сохранения данных, введенных в форму добавления карточки места 
 function handleCardFormSave(data) {
+  popupFormAddCard.renderLoading(true, 'Создание...');
   api.addCard(data['place-name'], data['place-link'])
     .then((dataCard) => {
       const card = createCard (dataCard);
@@ -103,6 +108,9 @@ function handleCardFormSave(data) {
     })
     .catch((err) => {
       console.log(err.message);
+    })
+    .finally(() => {
+      popupFormAddCard.renderLoading(false);
     })
 }
 
@@ -120,6 +128,7 @@ popupFormAddCard.setEventListener();
 
 // Функция сохранения данных пользователя из полей формы Profile на страницу
 function handleProfileFormSave (data) {
+  popupFormProfile.renderLoading(true, 'Сохранение...');
   api.editProfile(data['name-profile'], data['description-profile'])
   .then(() => {
     const currentUserInfo = userInfo.getUserInfo();
@@ -128,6 +137,9 @@ function handleProfileFormSave (data) {
   .catch((err) => {
     console.log(err.message);
   })
+    .finally(() => {
+      popupFormProfile.renderLoading(false);
+    })
 }
 
 // Создание экземпляра класса PopupWithForm c формой редактирования профиля
@@ -148,6 +160,7 @@ popupFormProfile.setEventListener();
 
 // Функция сохранения аватара пользователя из полей формы Avatar на страницу
 function handlePopupAvatarFormSave(data) {
+  popupFormAvatar.renderLoading(true, 'Сохранение...');
   api.updateAvatar(data['avatar-link'])
     .then ((data) => {
       userInfo.setUserInfo (data.name, data.about, data.avatar);
@@ -155,17 +168,20 @@ function handlePopupAvatarFormSave(data) {
     .catch((err) => {
       console.log(err.message);
     })
+    .finally(() => {
+      popupFormAvatar.renderLoading(false);
+    })
 }
 
 // Создание экземплара класса PopupWithForm c формой редактирования аватара
-const avatarPopup = new PopupWithForm('#popup-avatar', handlePopupAvatarFormSave);
+const popupFormAvatar = new PopupWithForm('#popup-avatar', handlePopupAvatarFormSave);
 
-avatarPopup.setEventListener();
+popupFormAvatar.setEventListener();
 avatarEditButton.addEventListener('click', () => {
   const dataUserInfo = userInfo.getUserInfo();
   const data = {'avatar-link': dataUserInfo.avatar}; //- получаем ссылку на текущий аватар
-  avatarPopup.fillInFields(data)// - заполняем поля
-  avatarPopup.open();
+  popupFormAvatar.fillInFields(data)// - заполняем поля
+  popupFormAvatar.open();
 });
 
 //РАБОТА С POPUP ZOOM IMAGE

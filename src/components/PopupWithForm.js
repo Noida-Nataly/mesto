@@ -4,7 +4,7 @@ export default class PopupWithForm extends Popup {
     super(popupId);
     this._saveFormFunction = saveFormFunction;
     this._form = this._popup.getElementsByTagName('form')[0];
-    this._saveButton = this._form.querySelector('.popup__save-button');
+    this._saveButton = this._form.querySelector('.popup__confirm-button');
     this._inputList = this._form.querySelectorAll('input');
     this._inputValues = {};
   }

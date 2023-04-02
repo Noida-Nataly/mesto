@@ -28,12 +28,6 @@ export default class Card {
     this._likesCountSpan = this.card.querySelector('.location__like-count');
   }
   
-  // Удаление карточки по нажатию кнопки 
-  // _deleteCard(evt) {
-  //   this._card = evt.target.closest('.location__card'); // выбор карточки, из которой вызвали событие
-  //   this._card.remove();
-  // }
-
   // Добавление/удаление лайка по нажатию кнопки
   toggleLike(likes) {
     this._likeButton.classList.toggle('location__like-button_active');

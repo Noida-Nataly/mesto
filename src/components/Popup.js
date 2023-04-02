@@ -2,10 +2,14 @@ export default class Popup {
   constructor(popupId) {
     this._popupId = popupId;
     this._getPopup();
-    
   }
   _getPopup() {
-  this._popup = document.querySelector(this._popupId);
+    this._popup = document.querySelector(this._popupId);
+    this._closeButton = this._popup.querySelector('.close-popup');
+    this._submitButton = this._popup.querySelector('.popup__confirm-button');
+    if(this._submitButton) {
+      this._defaultText = this._submitButton.textContent;
+    }
   }
 
   // Метод закрытия popup
@@ -43,11 +47,25 @@ export default class Popup {
   
   setEventListener() {
     //Выбираем кнопки закрытия popup
-    this._closeButton = this._popup.querySelector('.close-popup');
+    
     // Отслеживание событий по кнопкам с функцией закрытия popup, для всех элементов массива
     this._closeButton.addEventListener('click', () => { 
       this.close();
     });
   }
+  
+  // Метод отображения ожидания получения ответа от сервера
+  renderLoading(isLoading, textLoading) {
+    if(!this._submitButton) {
+      return;
+    }
+    if(isLoading) {
+      this._submitButton.textContent = textLoading;
+    } else {
+      this._submitButton.textContent = this._defaultText;
+    }
+  }
+  
+  
 }
 

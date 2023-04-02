@@ -1,4 +1,4 @@
-.popup__save-button {
+.popup__confirm-button {
   margin-top: 18px;
   width: 358px;
   border: 1px solid #000000;
@@ -13,13 +13,13 @@
   text-align: center;
 }
 
-.popup__save-button:hover {
+.popup__confirm-button:hover {
   cursor: pointer;
   opacity: 80%;
   transition: 0.3s opacity linear;
 }
 @media screen and (max-width: 880px) {
-  .popup__save-button {
+  .popup__confirm-button {
     margin-top: 45px;
     font-size: 14px;
     line-height: 17px;
