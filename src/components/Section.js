@@ -6,6 +6,7 @@ export default class Section {
   
   // Метод отрисовки карточки
   renderItems(items) {
+    items.reverse();
     items.forEach(item => {
       this._renderer(item);
     });

@@ -8,6 +8,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 import Api from '../components/Api.js';
+import PopupDeleteConfirmation from "../components/PopupDeleteConfirmation";
 
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
@@ -32,9 +33,39 @@ const userInfoPromise = api.getUserInfo();
 
 //РАБОТА С КЛАССОМ SECTION
 
+// Метод обработки клика по лайку
+function handleToggleLike(card, cardId, isMyLike) {
+  api.toggleLike(cardId, isMyLike)
+    .then((dataCard)=> {
+      card.toggleLike(dataCard.likes);
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+}
+
+//Метод удаления карточки
+
+function confirmFormFunction(card) {
+  api.deleteCard(card.cardId)
+    .then(() => {
+      card.card.remove();
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+}
+
+const popupFormDeleteCard = new PopupDeleteConfirmation('#popup-confirmation', confirmFormFunction);
+function handleDeleteCard(objectToDelete) {
+  popupFormDeleteCard.open(objectToDelete)
+}
+
+popupFormDeleteCard.setEventListener();
+
 // Функция создания новой карточки для добавления на страницу;
-function createCard (title, link) {
-  const card = new Card (title, link, templateSelector, handleCardClick);
+function createCard (dataCard) {
+  const card = new Card (dataCard, templateSelector, userId, handleCardClick, handleToggleLike, handleDeleteCard);
   return(card.getCard());
 }
 
@@ -42,7 +73,7 @@ function createCard (title, link) {
 
 const section = new Section(
   (item) => {
-    const cardElement = createCard (item.name, item.link);
+    const cardElement = createCard (item);
     section.addItem(cardElement);
     },
   '.location__list'
@@ -65,8 +96,14 @@ Promise.all([userInfoPromise, initialCardsPromise])
 
 // Функция сохранения данных, введенных в форму добавления карточки места 
 function handleCardFormSave(data) {
-  const card = createCard (data['place-name'], data['place-link']);
-  section.addItem(card);
+  api.addCard(data['place-name'], data['place-link'])
+    .then((dataCard) => {
+      const card = createCard (dataCard);
+      section.addItem(card);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
 }
 
 // Создание экземпляра класса PopupWithForm c формой создания карточки
@@ -78,9 +115,8 @@ cardAddButton.addEventListener('click', () => { popupFormAddCard.open(); });
 //Вызов метода установки слушателей на события формы создания карточки и ее очистку
 popupFormAddCard.setEventListener();
 
+
 //РАБОТА С POPUP ДЛЯ ИЗМЕНЕНИЯ ПРОФИЛЯ
-
-
 
 // Функция сохранения данных пользователя из полей формы Profile на страницу
 function handleProfileFormSave (data) {
@@ -92,7 +128,6 @@ function handleProfileFormSave (data) {
   .catch((err) => {
     console.log(err.message);
   })
-  
 }
 
 // Создание экземпляра класса PopupWithForm c формой редактирования профиля
@@ -113,9 +148,15 @@ popupFormProfile.setEventListener();
 
 // Функция сохранения аватара пользователя из полей формы Avatar на страницу
 function handlePopupAvatarFormSave(data) {
-  const userInfoData = userInfo.getUserInfo();
-  userInfo.setUserInfo (userInfoData.name, userInfoData.info, data['avatar-link']);
+  api.updateAvatar(data['avatar-link'])
+    .then ((data) => {
+      userInfo.setUserInfo (data.name, data.about, data.avatar);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
 }
+
 // Создание экземплара класса PopupWithForm c формой редактирования аватара
 const avatarPopup = new PopupWithForm('#popup-avatar', handlePopupAvatarFormSave);
 
@@ -131,6 +172,7 @@ avatarEditButton.addEventListener('click', () => {
 
 const popupZoomImage = new PopupWithImage('#popup-zoom');
 popupZoomImage.setEventListener();
+
 // Открытие popup - просмотр увеличенной картинки
 function handleCardClick(title, link) {
   popupZoomImage.open(title, link);  
@@ -138,7 +180,11 @@ function handleCardClick(title, link) {
 
 // ВАЛИДАЦИЯ ФОРМ
 const enableValidation = (validationConfig) => {
-  const formList = Array.from(document.forms);         //Создание массива всех форм страницы 
+  let formList = Array.from(document.forms);         //Создание массива всех форм страницы 
+  formList = formList.filter((item) => {
+    return item.id.includes('save');
+  });
+  
   formList.forEach((formElement) => {                // Добавление обработчика на каждую форму с типом submit
     const formValidator = new FormValidator(formElement, validationConfig);
     formValidator.enableValidation();

@@ -30,8 +30,12 @@
 @import url(../blocks/location/__title/location__title.css);
 @import url(../blocks/location/__like-button/location__like-button.css);
 @import url(../blocks/location/__like-button/_active/location__like-button_active.css);
+@import url(../blocks/location/__like/location__like.css);
+@import url(../blocks/location/__like-count/location__like-count.css);
 @import url(../blocks/location/__wrapper/location__wrapper.css);
 @import url(../blocks/location/__delete-button/location__delete-button.css);
+@import url(../blocks/location/__delete-button/_hidden/location__delete-button_hidden.css);
+
 
 /* Подключение стилей для блока footer */
 @import url(../blocks/footer/footer.css);

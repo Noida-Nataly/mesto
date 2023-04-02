@@ -37,7 +37,7 @@
         <button class="popup__close-button button close-popup"
                 type="button"
                 aria-label="Закрыть"></button>
-        <form id="form-avatar"
+        <form id="form-avatar-save"
               class="popup__content"
               name="avatar"
               novalidate>
@@ -48,16 +48,33 @@
             class="popup__input"
             type="url"
             placeholder="Ссылка на фотографию"
-            minlength="2"
-            maxlength="40"
             required>
           <span id = "avatar-link-error" class="popup__error-message"></span>
-          <button id="avatar-link-save"
+          <button id="form-avatar-save-button"
                   class="popup__save-button"
                   type="submit">Сохранить</button>
         </form>
       </div>
     </div>
+
+    <!--Попап подтверждение удаления карточки-->
+    <div id="popup-confirmation" class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button button close-popup"
+                type="button"
+                aria-label="Закрыть"></button>
+        <form id="form-confirmation"
+              class="popup__content"
+              name="confirmation"
+              novalidate>
+          <h2 class="popup__title">Вы уверены?</h2>
+          <button id="delete-confirmation"
+                  class="popup__confirmation"
+                  type="submit">Да</button>
+        </form>
+      </div>
+    </div> 
+    
     
   <!--Попап редактирования профиля-->
   <div id="popup-profile" class="popup">
@@ -65,7 +82,7 @@
       <button class="popup__close-button button close-popup" 
               type="button" 
               aria-label="Закрыть"></button>
-      <form id="form-profile" 
+      <form id="form-profile-save" 
             class="popup__content" 
             name="profile"
             novalidate>
@@ -90,7 +107,7 @@
               maxlength="200"
               required>
             <span id = "description-profile-error" class="popup__error-message"></span>
-            <button id="form-profile-save" 
+            <button id="form-profile-save-button" 
                     class="popup__save-button" 
                     type="submit">Сохранить</button>
       </form>
@@ -103,7 +120,7 @@
       <button class="popup__close-button button close-popup" 
               type="button" 
               aria-label="Закрыть"></button>
-      <form id="form-place" 
+      <form id="form-place-save" 
             class="popup__content" 
             name="place"
             novalidate>
@@ -126,7 +143,7 @@
           placeholder="Ссылка на картинку"
           required>
         <span id = "place-link-error" class="popup__error-message"></span>
-        <button id="form-place-save" 
+        <button id="form-place-save-button" 
                 class="popup__save-button"
                 type="submit">Создать</button>
       </form>
@@ -152,14 +169,19 @@
         <div>
           <button class="location__delete-button button"
                   type="button"
-                  aria-label="Удалить место"></button>
+                  aria-label="Удалить место">
+          </button>
         </div>
       </div>
       <div class="location__description">
         <h2 class="location__title"></h2>
-        <button class="location__like-button button"
-                type="button"
-                aria-label="Отметить избранное"></button>
+        <div class="location__like">
+          <button class="location__like-button button"
+                  type="button"
+                  aria-label="Отметить избранное">
+          </button>
+          <span class="location__like-count"></span>
+        </div>
       </div>
     </li>
   </template>
