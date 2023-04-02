@@ -13,7 +13,7 @@ import PopupDeleteConfirmation from "../components/PopupDeleteConfirmation";
 const profileEditButton = document.querySelector('.profile__edit-button'); // Поиск кнопки редактирования профиля
 const cardAddButton = document.querySelector('.profile__add-button'); // Поиск кнопки добавления новой карточки
 const templateSelector = '.place-template'; // Поиск шаблона карточки (места)
-const avatarEditButton = document.querySelector('.profile__avatar_edit-button'); // Поиск кнопки редактирования профиля
+const avatarEditButton = document.querySelector('.profile__avatar'); // Поиск кнопки редактирования профиля
 let userId;
 
 //СОЗДАНИЕ ЭКЗЕМПЛЯРА СЕРВИСА ПО ОБМЕНУ ДАННЫМИ С СЕРВЕРОМ
@@ -25,7 +25,7 @@ const userInfo = new UserInfo (
   {
     nameProfileSelector: '.profile__name',
     infoProfileSelector:'.profile__description',
-    avatarProfileSelector: '.profile__avatar'
+    avatarProfileSelector: '.profile__avatar-image'
   }
 );
 

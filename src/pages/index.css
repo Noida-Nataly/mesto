@@ -19,7 +19,7 @@
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
-@import url(../blocks/profile/__avatar/_edit-button/profile__avatar_edit-button.css);
+@import url(../blocks/profile/__avatar-image/profile__avatar-image.css);
 
 /* Подключение стилей для фото-галереи location */
 @import url(../blocks/location/location.css);
