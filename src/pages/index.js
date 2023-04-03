@@ -46,11 +46,12 @@ function handleToggleLike(card, cardId, isMyLike) {
 
 //Метод удаления карточки
 
-function confirmFormFunction(card) {
+function confirmFormFunction(card, cardId) {
   popupFormDeleteCard.renderLoading(true, "Удаление...");
-  api.deleteCard(card.cardId)
+  api.deleteCard(cardId)
     .then(() => {
-      card.card.remove();
+      card.deleteCard();
+      popupFormDeleteCard.close();
     })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
@@ -61,8 +62,8 @@ function confirmFormFunction(card) {
 }
 
 const popupFormDeleteCard = new PopupDeleteConfirmation('#popup-confirmation', confirmFormFunction);
-function handleDeleteCard(objectToDelete) {
-  popupFormDeleteCard.open(objectToDelete)
+function handleDeleteCard(objectToDelete, objectId) {
+  popupFormDeleteCard.open(objectToDelete, objectId)
 }
 
 popupFormDeleteCard.setEventListener();
@@ -105,6 +106,7 @@ function handleCardFormSave(data) {
     .then((dataCard) => {
       const card = createCard (dataCard);
       section.addItem(card);
+      popupFormAddCard.close();
     })
     .catch((err) => {
       console.log(err.message);
@@ -130,11 +132,12 @@ popupFormAddCard.setEventListener();
 function handleProfileFormSave (data) {
   popupFormProfile.renderLoading(true, 'Сохранение...');
   api.editProfile(data['name-profile'], data['description-profile'])
-  .then(() => {
-    const currentUserInfo = userInfo.getUserInfo();
-    userInfo.setUserInfo(data['name-profile'], data['description-profile'], currentUserInfo.avatar)
+  .then((updatedUser) => {
+    userInfo.setUserInfo(updatedUser.name, updatedUser.about, updatedUser.avatar)
+    popupFormProfile.close();
   })
   .catch((err) => {
+    
     console.log(err.message);
   })
     .finally(() => {
@@ -164,6 +167,7 @@ function handlePopupAvatarFormSave(data) {
   api.updateAvatar(data['avatar-link'])
     .then ((data) => {
       userInfo.setUserInfo (data.name, data.about, data.avatar);
+      popupFormAvatar.close();
     })
     .catch((err) => {
       console.log(err.message);
@@ -178,9 +182,6 @@ const popupFormAvatar = new PopupWithForm('#popup-avatar', handlePopupAvatarForm
 
 popupFormAvatar.setEventListener();
 avatarEditButton.addEventListener('click', () => {
-  const dataUserInfo = userInfo.getUserInfo();
-  const data = {'avatar-link': dataUserInfo.avatar}; //- получаем ссылку на текущий аватар
-  popupFormAvatar.fillInFields(data)// - заполняем поля
   popupFormAvatar.open();
 });
 
@@ -196,11 +197,10 @@ function handleCardClick(title, link) {
 
 // ВАЛИДАЦИЯ ФОРМ
 const enableValidation = (validationConfig) => {
-  let formList = Array.from(document.forms);         //Создание массива всех форм страницы 
-  formList = formList.filter((item) => {
+  const formList = Array.from(document.forms).filter((item) => {
     return item.id.includes('save');
-  });
-  
+  });         //Создание массива всех форм страницы 
+    
   formList.forEach((formElement) => {                // Добавление обработчика на каждую форму с типом submit
     const formValidator = new FormValidator(formElement, validationConfig);
     formValidator.enableValidation();

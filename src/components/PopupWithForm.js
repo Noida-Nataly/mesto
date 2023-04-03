@@ -7,6 +7,9 @@ export default class PopupWithForm extends Popup {
     this._saveButton = this._form.querySelector('.popup__confirm-button');
     this._inputList = this._form.querySelectorAll('input');
     this._inputValues = {};
+    if(this._saveButton) {
+      this._defaultText = this._saveButton.textContent;
+    }
   }
   
   // Метод сбора значений полей input формы
@@ -24,7 +27,6 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._saveFormFunction(this._getInputValues());
-      this.close();
     });
   }
   
