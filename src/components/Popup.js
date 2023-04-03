@@ -6,10 +6,6 @@ export default class Popup {
   _getPopup() {
     this._popup = document.querySelector(this._popupId);
     this._closeButton = this._popup.querySelector('.close-popup');
-    this._submitButton = this._popup.querySelector('.popup__confirm-button');
-    if(this._submitButton) {
-      this._defaultText = this._submitButton.textContent;
-    }
   }
 
   // Метод закрытия popup
@@ -56,13 +52,13 @@ export default class Popup {
   
   // Метод отображения ожидания получения ответа от сервера
   renderLoading(isLoading, textLoading) {
-    if(!this._submitButton) {
+    if(!this._saveButton) {
       return;
     }
     if(isLoading) {
-      this._submitButton.textContent = textLoading;
+      this._saveButton.textContent = textLoading;
     } else {
-      this._submitButton.textContent = this._defaultText;
+      this._saveButton.textContent = this._defaultText;
     }
   }
   
