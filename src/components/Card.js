@@ -44,7 +44,7 @@ export default class Card {
     if (this._isMyCard) {
       this._deleteButton.addEventListener('click', (evt) => {
         this.card = evt.target.closest('.location__card'); // выбор карточки, из которой вызвали событие
-        this._handleDeleteCard(this)
+        this._handleDeleteCard(this, this.cardId)
       }); // добавляем отслеживание удаления на вновь созданные карты
     } 
   }
@@ -73,4 +73,10 @@ export default class Card {
     this._setLikeInfo();
     return this.card;
   }
+  
+  //Метод удаление карточки
+  deleteCard(){
+    this.card.remove();
+  }
+  
 }
